@@ -131,6 +131,12 @@
     <ClInclude Include="Common\misc\WindowUtils.h">
       <Filter>misc</Filter>
     </ClInclude>
+    <ClInclude Include="Follower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Leader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="params.ini">

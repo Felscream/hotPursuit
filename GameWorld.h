@@ -21,6 +21,9 @@
 #include "BaseGameEntity.h"
 #include "EntityFunctionTemplates.h"
 #include "vehicle.h"
+#include "follower.h"
+#include "leader.h"
+
 
 
 class Obstacle;
@@ -37,6 +40,10 @@ private:
 
   //a container of all the moving entities
   std::vector<Vehicle*>         m_Vehicles;
+  //a container of all the moving entities
+  std::vector<Follower*>         m_Followers;
+  //a container of all the moving entities
+  std::vector<Leader*>         m_Leaders;
 
   //any obstacles
   std::vector<BaseGameEntity*>  m_Obstacles;
@@ -45,6 +52,8 @@ private:
   std::vector<Wall2D>           m_Walls;
 
   CellSpacePartition<Vehicle*>* m_pCellSpace;
+  CellSpacePartition<Follower*>* m_pCellSpaceFollower;
+  CellSpacePartition<Leader*>* m_pCellSpaceLeader;
 
   //any path we may create for the vehicles to follow
   Path*                         m_pPath;

@@ -24,6 +24,8 @@ private:
     ParamLoader():iniFileLoaderBase("params.ini")
   {
     NumAgents               = GetNextParameterInt();
+	NumFollowers			= GetNextParameterInt();
+	NumLeaders				= GetNextParameterInt();
     NumObstacles            = GetNextParameterInt();
     MinObstacleRadius       = GetNextParameterFloat();
     MaxObstacleRadius       = GetNextParameterFloat();
@@ -79,6 +81,8 @@ public:
   static ParamLoader* Instance();
 
   int	NumAgents;
+  int	NumFollowers;
+  int	NumLeaders;
   int	NumObstacles;
   double MinObstacleRadius;
   double MaxObstacleRadius;
