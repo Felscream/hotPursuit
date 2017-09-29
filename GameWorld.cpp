@@ -67,7 +67,7 @@ GameWorld::GameWorld(int cx, int cy):
                                     Prm.MaxTurnRatePerSecond, //max turn rate
                                     Prm.VehicleScale);        //scale
 
-    pVehicle->Steering()->FlockingOn();
+    pVehicle->Steering()->FlockingOff();
 
     m_Vehicles.push_back(pVehicle);
 
@@ -86,7 +86,7 @@ GameWorld::GameWorld(int cx, int cy):
 
    for (int i=0; i<Prm.NumAgents-1; ++i)
   {
-    m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
+    m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[Prm.NumAgents-1], (Vector2D(10, 10)));
 
   }
 #endif
