@@ -27,7 +27,6 @@ public:
 			max_speed,
 			max_turn_rate,
 			scale) {
-
 	}
 
 };
