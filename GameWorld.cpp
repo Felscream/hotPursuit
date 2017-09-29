@@ -141,6 +141,8 @@ GameWorld::~GameWorld()
   }
 
   delete m_pCellSpace;
+  delete m_pCellSpaceLeader;
+  delete m_pCellSpaceFollower;
   
   delete m_pPath;
 }
