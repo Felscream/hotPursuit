@@ -47,6 +47,8 @@ GameWorld::GameWorld(int cx, int cy):
 
   //setup the spatial subdivision class
   m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+  m_pCellSpaceLeader = new CellSpacePartition<Leader*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+  m_pCellSpaceFollower = new CellSpacePartition<Follower*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
 
   double border = 30;
   m_pPath = new Path(5, border, border, cx-border, cy-border, true);
@@ -110,12 +112,10 @@ GameWorld::GameWorld(int cx, int cy):
 
 #define SHOAL
 #ifdef SHOAL
-  
-
 
    for (int i=0; i<Prm.NumFollowers; ++i)
   {
-	   m_Followers[i]->Steering()->OffsetPursuitOn(m_Vehicles[Prm.NumAgents - 1], Vector2D(-10, 0));
+	   m_Followers[i]->Steering()->OffsetPursuitOn(m_Leaders[Prm.NumLeaders-1], Vector2D(-10, 0));
 
   }
 #endif
@@ -162,9 +162,13 @@ void GameWorld::Update(double time_elapsed)
   
 
   //update the vehicles
-  for (unsigned int a=0; a<m_Vehicles.size(); ++a)
+  for (unsigned int a=0; a<m_Leaders.size(); ++a)
   {
-    m_Vehicles[a]->Update(time_elapsed);
+	  m_Leaders[a]->Update(time_elapsed);
+  }
+  for (unsigned int a = 0; a<m_Followers.size(); ++a)
+  {
+	  m_Followers[a]->Update(time_elapsed);
   }
 }
   
@@ -565,29 +569,60 @@ void GameWorld::Render()
   }
 
   //render the agents
-  for (unsigned int a=0; a<m_Vehicles.size(); ++a)
+  for (unsigned int a=0; a<m_Followers.size(); ++a)
   {
-    m_Vehicles[a]->Render();  
+	  m_Followers[a]->Render();
     
     //render cell partitioning stuff
+
+	  //followers
     if (m_bShowCellSpaceInfo && a==0)
     {
       gdi->HollowBrush();
-      InvertedAABBox2D box(m_Vehicles[a]->Pos() - Vector2D(Prm.ViewDistance, Prm.ViewDistance),
-                           m_Vehicles[a]->Pos() + Vector2D(Prm.ViewDistance, Prm.ViewDistance));
+      InvertedAABBox2D box(m_Followers[a]->Pos() - Vector2D(Prm.ViewDistance, Prm.ViewDistance),
+		  m_Followers[a]->Pos() + Vector2D(Prm.ViewDistance, Prm.ViewDistance));
       box.Render();
 
       gdi->RedPen();
-      CellSpace()->CalculateNeighbors(m_Vehicles[a]->Pos(), Prm.ViewDistance);
+      CellSpace()->CalculateNeighbors(m_Followers[a]->Pos(), Prm.ViewDistance);
       for (BaseGameEntity* pV = CellSpace()->begin();!CellSpace()->end();pV = CellSpace()->next())
       {
         gdi->Circle(pV->Pos(), pV->BRadius());
       }
       
       gdi->GreenPen();
-      gdi->Circle(m_Vehicles[a]->Pos(), Prm.ViewDistance);
+      gdi->Circle(m_Followers[a]->Pos(), Prm.ViewDistance);
     }
+
+
   }  
+
+  //leaders
+  for (unsigned int a = 0; a<m_Leaders.size(); ++a)
+  {
+	  m_Leaders[a]->Render();
+
+	  //render cell partitioning stuff
+	  if (m_bShowCellSpaceInfo && a == 0)
+	  {
+		  gdi->HollowBrush();
+		  InvertedAABBox2D box(m_Leaders[a]->Pos() - Vector2D(Prm.ViewDistance, Prm.ViewDistance),
+			  m_Leaders[a]->Pos() + Vector2D(Prm.ViewDistance, Prm.ViewDistance));
+		  box.Render();
+
+		  gdi->RedPen();
+		  CellSpace()->CalculateNeighbors(m_Leaders[a]->Pos(), Prm.ViewDistance);
+		  for (BaseGameEntity* pV = CellSpace()->begin(); !CellSpace()->end(); pV = CellSpace()->next())
+		  {
+			  gdi->Circle(pV->Pos(), pV->BRadius());
+		  }
+
+		  gdi->RedPen();
+		  gdi->Circle(m_Leaders[a]->Pos(), Prm.ViewDistance);
+	  }
+
+
+}
 
 //#define CROSSHAIR
 #ifdef CROSSHAIR

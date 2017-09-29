@@ -116,6 +116,8 @@ public:
 
   const std::vector<Wall2D>&          Walls(){return m_Walls;}                          
   CellSpacePartition<Vehicle*>*       CellSpace(){return m_pCellSpace;}
+  CellSpacePartition<Leader*>*       CellSpaceLeader() { return m_pCellSpaceLeader; }
+  CellSpacePartition<Follower*>*       CellSpaceFollower() { return m_pCellSpaceFollower; }
   const std::vector<BaseGameEntity*>& Obstacles()const{return m_Obstacles;}
   const std::vector<Vehicle*>&        Agents(){return m_Vehicles;}
 
