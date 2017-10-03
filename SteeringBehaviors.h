@@ -22,6 +22,7 @@
 
 
 class Vehicle;
+class Follower;
 class CController;
 class Wall2D;
 class BaseGameEntity;
@@ -79,7 +80,8 @@ private:
 
   
   //a pointer to the owner of this instance
-  Vehicle*     m_pVehicle;   
+  Vehicle*     m_pVehicle;
+  Follower*    m_pFollower;
   
   //the steering force created by the combined effect of all
   //the selected behaviors
@@ -270,7 +272,7 @@ private:
 public:
 
   SteeringBehavior(Vehicle* agent);
-
+  SteeringBehavior(Follower* agent);
   virtual ~SteeringBehavior();
 
   //calculates and sums the steering forces from any active behaviors

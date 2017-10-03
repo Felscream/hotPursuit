@@ -59,9 +59,6 @@
     <ClInclude Include="BaseGameEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\misc\CellSpacePartition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -135,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Leader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\misc\CellSpacePartition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
