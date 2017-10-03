@@ -55,6 +55,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent):
              m_bCellSpaceOn(false),
              m_SummingMethod(prioritized)
 
+
 {
   //stuff for the wander behavior
   double theta = RandFloat() * TwoPi;
@@ -66,56 +67,6 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent):
   //create a Path
   m_pPath = new Path();
   m_pPath->LoopOn();
-
-}
-
-
-
-SteeringBehavior::SteeringBehavior(Follower* agent) :
-
-
-	m_pFollower(agent),
-	m_iFlags(0),
-	m_dDBoxLength(Prm.MinDetectionBoxLength),
-	m_dWeightCohesion(Prm.CohesionWeight),
-	m_dWeightAlignment(Prm.AlignmentWeight),
-	m_dWeightSeparation(Prm.SeparationWeight),
-	m_dWeightObstacleAvoidance(Prm.ObstacleAvoidanceWeight),
-	m_dWeightWander(Prm.WanderWeight),
-	m_dWeightWallAvoidance(Prm.WallAvoidanceWeight),
-	m_dViewDistance(Prm.ViewDistance),
-	m_dWallDetectionFeelerLength(Prm.WallDetectionFeelerLength),
-	m_Feelers(3),
-	m_Deceleration(normal),
-	m_pTargetAgent1(NULL),
-	m_pTargetAgent2(NULL),
-	m_dWanderDistance(WanderDist),
-	m_dWanderJitter(WanderJitterPerSec),
-	m_dWanderRadius(WanderRad),
-	m_dWaypointSeekDistSq(WaypointSeekDist*WaypointSeekDist),
-	m_dWeightSeek(Prm.SeekWeight),
-	m_dWeightFlee(Prm.FleeWeight),
-	m_dWeightArrive(Prm.ArriveWeight),
-	m_dWeightPursuit(Prm.PursuitWeight),
-	m_dWeightOffsetPursuit(Prm.OffsetPursuitWeight),
-	m_dWeightInterpose(Prm.InterposeWeight),
-	m_dWeightHide(Prm.HideWeight),
-	m_dWeightEvade(Prm.EvadeWeight),
-	m_dWeightFollowPath(Prm.FollowPathWeight),
-	m_bCellSpaceOn(false),
-	m_SummingMethod(prioritized)
-
-{
-	//stuff for the wander behavior
-	double theta = RandFloat() * TwoPi;
-
-	//create a vector to a target position on the wander circle
-	m_vWanderTarget = Vector2D(m_dWanderRadius * cos(theta),
-		m_dWanderRadius * sin(theta));
-
-	//create a Path
-	m_pPath = new Path();
-	m_pPath->LoopOn();
 
 }
 
@@ -152,7 +103,7 @@ Vector2D SteeringBehavior::Calculate()
     //behaviors are switched on
     if (On(separation) || On(allignment) || On(cohesion))
     {
-      m_pFollower->World()->CellSpaceFollower()->CalculateNeighbors(m_pFollower->Pos(), m_dViewDistance);
+      m_pVehicle->World()->CellSpace()->CalculateNeighbors(m_pVehicle->Pos(), m_dViewDistance);
     }
   }
 
@@ -1109,6 +1060,7 @@ Vector2D SteeringBehavior::Separation(const vector<Vehicle*> &neighbors)
 
   for (unsigned int a=0; a<neighbors.size(); ++a)
   {
+	  printf(" neighbors size : "+neighbors.size());
     //make sure this agent isn't included in the calculations and that
     //the agent being examined is close enough. ***also make sure it doesn't
     //include the evade target ***

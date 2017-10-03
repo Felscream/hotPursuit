@@ -116,7 +116,6 @@ GameWorld::GameWorld(int cx, int cy):
    for (int i=0; i<Prm.NumFollowers; ++i)
   {
 	   m_Followers[i]->Steering()->OffsetPursuitOn(m_Leaders[Prm.NumLeaders-1], Vector2D(-10, 0));
-	   m_Followers[i]->Steering()->SeparationOn();
 
   }
 #endif
