@@ -28,6 +28,8 @@
 
 
 
+
+
 //------------------------------------------------------------------------
 //
 //  defines a cell containing a list of pointers to entities
@@ -198,6 +200,8 @@ void CellSpacePartition<entity>::CalculateNeighbors(Vector2D TargetPos,
     }
   }//next cell
 
+
+  OutputDebugStringW(L"My output string.\n");
   //mark the end of the list with a zero.
   *curNbor = 0;
 }
