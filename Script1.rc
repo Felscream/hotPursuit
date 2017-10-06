@@ -51,6 +51,10 @@ BEGIN
     BEGIN
         MENUITEM "On/Off",                      ID_MENU_SMOOTHING
     END
+	POPUP "Control"
+	BEGIN
+		MENUITEM "On/Off", ID_CONTROL_LEADER
+	END
 END
 
 

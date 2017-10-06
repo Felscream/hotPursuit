@@ -101,7 +101,7 @@ GameWorld::GameWorld(int cx, int cy):
 
 
 									//pVehicle->Steering()->FlockingOn();
-
+	  
 	  m_Vehicles.push_back(pLeader);
 
 	  //add it to the cell subdivision
@@ -116,11 +116,12 @@ GameWorld::GameWorld(int cx, int cy):
 
    for (int i=0; i<Prm.NumFollowers; ++i)
   {
-	   int l = -10 * (2*i+1);
+	   double l = -20 * (i+1);
 	   m_Vehicles.at(i)->Steering()->OffsetPursuitOn(m_Vehicles[m_Vehicles.size()-1], Vector2D(l, 0));
 	   m_Vehicles.at(i)->Steering()->SeparationOn();
 
   }
+  
 #endif
  
   //create any obstacles or walls
@@ -554,10 +555,34 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
       }
 
       break;
+
+	  case ID_CONTROL_LEADER:
+	  {
+		  m_Vehicles[m_Vehicles.size() - 1]->ToggleControl();
+		  if (m_Vehicles[m_Vehicles.size() - 1]->isControlOn()) {
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOn();
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOff();
+		 }
+		  else {
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOff();
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOn();
+		  }
+
+		  CheckMenuItemAppropriately(hwnd, ID_CONTROL_LEADER, m_Vehicles[m_Vehicles.size() - 1]->isControlOn());
+			break;
+	  }
+
+	  
       
   }//end switch
 }
 
+void GameWorld::ForwardKey() {
+
+	 //m_Vehicles[m_Vehicles.size() - 1];
+	Vector2D force = Vector2D(m_Vehicles[m_Vehicles.size() - 1]->Speed()*m_Vehicles[m_Vehicles.size() - 1]->TimeElapsed(), 0);
+	m_Vehicles[m_Vehicles.size() - 1]->Steering()->setSteeringForce(force);
+}
 
 //------------------------------ Render ----------------------------------
 //------------------------------------------------------------------------
@@ -668,5 +693,7 @@ void GameWorld::Render()
     m_pCellSpace->RenderCells();
 	//m_pCellSpaceFollower->RenderCells();
   }
+
+  
 
 }

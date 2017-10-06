@@ -117,6 +117,7 @@ public:
   const std::vector<BaseGameEntity*>& Obstacles()const{return m_Obstacles;}
   const std::vector<Vehicle*>&        Agents(){return m_Vehicles;}
 
+  void ForwardKey();
 
   //handle WM_COMMAND messages
   void        HandleKeyPresses(WPARAM wParam);
@@ -148,6 +149,8 @@ public:
   
   void  ToggleViewKeys(){m_bViewKeys = !m_bViewKeys;}
   bool  ViewKeys()const{return m_bViewKeys;}
+
+  
 
 };
 

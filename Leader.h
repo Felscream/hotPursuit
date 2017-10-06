@@ -28,7 +28,8 @@ public:
 							scale) {
 
 		this->SetScale(Vector2D(10, 10));
-		this->Steering()->WanderOn();
+		//this->Steering()->WanderOn(); 
+		
 		this->SetMaxSpeed(70);
 
 	}

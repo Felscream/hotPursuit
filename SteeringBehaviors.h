@@ -289,6 +289,8 @@ public:
   //renders visual aids and info for seeing how each behavior is
   //calculated
   void      RenderAids();
+  Vector2D getSteeringForce() { return m_vSteeringForce; }
+  void setSteeringForce(Vector2D force) { m_vSteeringForce+=force; }
 
   void      SetTarget(const Vector2D t){m_vTarget = t;}
 

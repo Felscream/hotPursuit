@@ -14,27 +14,28 @@ using std::list;
 //----------------------------- ctor -------------------------------------
 //------------------------------------------------------------------------
 Vehicle::Vehicle(GameWorld* world,
-               Vector2D position,
-               double    rotation,
-               Vector2D velocity,
-               double    mass,
-               double    max_force,
-               double    max_speed,
-               double    max_turn_rate,
-               double    scale):    MovingEntity(position,
-                                                 scale,
-                                                 velocity,
-                                                 max_speed,
-                                                 Vector2D(sin(rotation),-cos(rotation)),
-                                                 mass,
-                                                 Vector2D(scale,scale),
-                                                 max_turn_rate,
-                                                 max_force),
+	Vector2D position,
+	double    rotation,
+	Vector2D velocity,
+	double    mass,
+	double    max_force,
+	double    max_speed,
+	double    max_turn_rate,
+	double    scale) : MovingEntity(position,
+		scale,
+		velocity,
+		max_speed,
+		Vector2D(sin(rotation), -cos(rotation)),
+		mass,
+		Vector2D(scale, scale),
+		max_turn_rate,
+		max_force),
 
-                                       m_pWorld(world),
-                                       m_vSmoothedHeading(Vector2D(0,0)),
-                                       m_bSmoothingOn(false),
-                                       m_dTimeElapsed(0.0)
+	m_pWorld(world),
+	m_vSmoothedHeading(Vector2D(0, 0)),
+	m_bSmoothingOn(false),
+	m_dTimeElapsed(0.0),
+	m_bControlOn(false)
 {  
   InitializeBuffer();
 

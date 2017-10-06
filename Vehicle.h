@@ -46,6 +46,8 @@ private:
 
   //when true, smoothing is active
   bool                  m_bSmoothingOn;
+
+  bool m_bControlOn;
   
 
   //keeps a track of the most recent update time. (some of the
@@ -95,6 +97,8 @@ public:
   void        SmoothingOn(){m_bSmoothingOn = true;}
   void        SmoothingOff(){m_bSmoothingOn = false;}
   void        ToggleSmoothing(){m_bSmoothingOn = !m_bSmoothingOn;}
+  void        ToggleControl() { m_bControlOn = !m_bControlOn; }
+  bool		isControlOn()const { return m_bControlOn; }
   
   double       TimeElapsed()const{return m_dTimeElapsed;}
  
