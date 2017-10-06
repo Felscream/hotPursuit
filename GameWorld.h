@@ -40,10 +40,6 @@ private:
 
   //a container of all the moving entities
   std::vector<Vehicle*>         m_Vehicles;
-  //a container of all the moving entities
-  std::vector<Follower*>         m_Followers;
-  //a container of all the moving entities
-  std::vector<Leader*>         m_Leaders;
 
   //any obstacles
   std::vector<BaseGameEntity*>  m_Obstacles;
