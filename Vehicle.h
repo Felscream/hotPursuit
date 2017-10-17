@@ -88,6 +88,7 @@ public:
                                                                           
   //-------------------------------------------accessor methods
   SteeringBehavior*const  Steering()const{return m_pSteering;}
+  void SetSteering(SteeringBehavior* steering) { m_pSteering = steering; }
   GameWorld*const         World()const{return m_pWorld;} 
 
   
@@ -99,7 +100,6 @@ public:
   void        ToggleSmoothing(){m_bSmoothingOn = !m_bSmoothingOn;}
   void        ToggleControl() { m_bControlOn = !m_bControlOn; }
   bool		isControlOn()const { return m_bControlOn; }
-  
   double       TimeElapsed()const{return m_dTimeElapsed;}
  
 };

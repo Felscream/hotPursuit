@@ -6,6 +6,8 @@
 #include "GameWorld.h"
 #include "misc/CellSpacePartition.h"
 #include "misc/cgdi.h"
+#include <Windows.h>
+
 
 using std::vector;
 using std::list;
@@ -57,6 +59,8 @@ Vehicle::~Vehicle()
   delete m_pHeadingSmoother;
 }
 
+
+
 //------------------------------ Update ----------------------------------
 //
 //  Updates the vehicle's position from a series of steering behaviors
@@ -75,8 +79,18 @@ void Vehicle::Update(double time_elapsed)
 
   //calculate the combined force from each steering behavior in the 
   //vehicle's list
-  SteeringForce = m_pSteering->Calculate();
-    
+  
+
+
+  //if () {
+	  SteeringForce = m_pSteering->Calculate();
+  //}
+	  bool shortKey = GetKeyState(VK_UP) & 0x0101;
+	  bool shorts = GetKeyState(VK_UP) & 0x0100;
+   if (!shortKey && this->EntityType()==leader_entity_type) {
+	   Accelerate(m_vVelocity * -time_elapsed);
+   }
+   
   //Acceleration = Force/Mass
   Vector2D acceleration = SteeringForce / m_dMass;
 
@@ -191,4 +205,8 @@ void Vehicle::InitializeBuffer()
   {
     m_vecVehicleVB.push_back(vehicle[vtx]);
   }
+
+  
 }
+
+

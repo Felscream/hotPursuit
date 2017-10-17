@@ -17,7 +17,6 @@
 
 
 #include "resource.h"
-
 #include <list>
 using std::list;
 
@@ -577,11 +576,18 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
   }//end switch
 }
 
+
+
+
 void GameWorld::ForwardKey() {
 
 	 //m_Vehicles[m_Vehicles.size() - 1];
-	Vector2D force = Vector2D(m_Vehicles[m_Vehicles.size() - 1]->Speed()*m_Vehicles[m_Vehicles.size() - 1]->TimeElapsed(), 0);
-	m_Vehicles[m_Vehicles.size() - 1]->Steering()->setSteeringForce(force);
+	
+	Vector2D force = m_Vehicles[m_Vehicles.size() - 1]->MaxSpeed()*m_Vehicles[m_Vehicles.size() - 1]->Heading();
+
+	m_Vehicles[m_Vehicles.size() - 1]->Accelerate(force);
+	Vector2D force2 = m_Vehicles[m_Vehicles.size() - 1]->Steering()->getSteeringForce();
+	//m_Vehicles[m_Vehicles.size() - 1]->Steering()->getSteeringForce();
 }
 
 //------------------------------ Render ----------------------------------

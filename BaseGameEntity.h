@@ -23,7 +23,9 @@ class BaseGameEntity
 {
 public:
   
-  enum {default_entity_type = -1};
+  enum {default_entity_type = -1,
+  follower_entity_type = 1,
+  leader_entity_type = 2};
 
 private:
   

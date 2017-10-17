@@ -91,6 +91,9 @@ public:
 
   double     MaxTurnRate()const{return m_dMaxTurnRate;}
   void      SetMaxTurnRate(double val){m_dMaxTurnRate = val;}
+  void Accelerate(Vector2D force) {
+	  m_vVelocity += force;
+  };
 
 };
 

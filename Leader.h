@@ -31,6 +31,7 @@ public:
 		//this->Steering()->WanderOn(); 
 		
 		this->SetMaxSpeed(70);
+		this->SetEntityType(leader_entity_type);
 
 	}
 

@@ -290,7 +290,11 @@ public:
   //calculated
   void      RenderAids();
   Vector2D getSteeringForce() { return m_vSteeringForce; }
-  void setSteeringForce(Vector2D force) { m_vSteeringForce+=force; }
+  void setSteeringForce(Vector2D force) { 
+	  //Vector2D forcerouge = getSteeringForce();
+	  m_vSteeringForce+=force; 
+	  //Vector2D forcebleu = getSteeringForce();
+  }
 
   void      SetTarget(const Vector2D t){m_vTarget = t;}
 

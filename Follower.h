@@ -27,7 +27,10 @@ public:
 			max_speed,
 			max_turn_rate,
 			scale) {
+
+		this->SetEntityType(follower_entity_type);
 	}
+
 
 };
 #endif
