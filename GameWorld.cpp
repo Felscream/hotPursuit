@@ -46,8 +46,8 @@ GameWorld::GameWorld(int cx, int cy):
 
   //setup the spatial subdivision class
   m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
-  m_pCellSpaceLeader = new CellSpacePartition<Leader*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
-  m_pCellSpaceFollower = new CellSpacePartition<Follower*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+  //m_pCellSpaceLeader = new CellSpacePartition<Leader*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+  //m_pCellSpaceFollower = new CellSpacePartition<Follower*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
 
   double border = 30;
   m_pPath = new Path(5, border, border, cx-border, cy-border, true);
@@ -76,7 +76,7 @@ GameWorld::GameWorld(int cx, int cy):
 	  m_Vehicles.push_back(pFollower);
 
 	  //add it to the cell subdivision
-	  m_pCellSpaceFollower->AddEntity(pFollower);
+	  m_pCellSpace->AddEntity(pFollower);
   }
   
 													//setup the agents
@@ -104,7 +104,7 @@ GameWorld::GameWorld(int cx, int cy):
 	  m_Vehicles.push_back(pLeader);
 
 	  //add it to the cell subdivision
-	  m_pCellSpaceLeader->AddEntity(pLeader);
+	  m_pCellSpace->AddEntity(pLeader);
   }
 
   
@@ -116,7 +116,8 @@ GameWorld::GameWorld(int cx, int cy):
    for (int i=0; i<Prm.NumFollowers; ++i)
   {
 	   double l = -20 * (i+1);
-	   m_Vehicles.at(i)->Steering()->OffsetPursuitOn(m_Vehicles[m_Vehicles.size()-1], Vector2D(l, 0));
+	   //m_Vehicles.at(i)->Steering()->OffsetPursuitOn(m_Vehicles[m_Vehicles.size()-1], Vector2D(l, 0));
+	   m_Vehicles.at(i)->Steering()->WanderOn();
 	   m_Vehicles.at(i)->Steering()->SeparationOn();
 
   }
@@ -174,12 +175,28 @@ void GameWorld::Update(double time_elapsed)
   {
 	  m_Vehicles[a]->Update(time_elapsed);
   }
-  /*for (unsigned int a = 0; a<m_Followers.size(); ++a)
-  {
-	  m_Followers[a]->Update(time_elapsed);
-  }*/
+  CheckLeader();
+  
 }
   
+void GameWorld::CheckLeader() {
+	std::vector<Vehicle*> neighbors;
+	for (unsigned int a = m_Vehicles.size()-1; a>m_Vehicles.size()- Prm.NumLeaders-1; a--)
+	{
+		CellSpace()->CalculateNeighbors(m_Vehicles[a]->Pos(), Prm.ViewDistance);
+		neighbors = CellSpace()->getNeighbors();
+
+		for (Vehicle* n : neighbors)
+		{
+			if (n!=NULL && n->EntityType()!= n->leader_entity_type)
+			{
+				n->Steering()->WanderOff();
+				n->Steering()->OffsetPursuitOn(m_Vehicles[a], Vector2D(-10, 0));
+			}
+		}
+	}
+}
+
 
 //--------------------------- CreateWalls --------------------------------
 //
@@ -558,8 +575,10 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 	  case ID_CONTROL_LEADER:
 	  {
 		  m_Vehicles[m_Vehicles.size() - 1]->ToggleMouseControl();
+		  
 		  if (m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn()) {
 			  m_Vehicles[m_Vehicles.size() - 1]->ToggleKeyboardControl();
+			  ChangeMenuState(hwnd, ID_CONTROL_LEADER_KEYBOARD, MFS_UNCHECKED);
 		  }
 		  if (m_Vehicles[m_Vehicles.size() - 1]->isMouseOn()) {
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOn();
@@ -578,6 +597,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 	  {
 		  m_Vehicles[m_Vehicles.size() - 1]->ToggleKeyboardControl();
 		  if (m_Vehicles[m_Vehicles.size() - 1]->isMouseOn()) {
+			  ChangeMenuState(hwnd, ID_CONTROL_LEADER, MFS_UNCHECKED);
 			  m_Vehicles[m_Vehicles.size() - 1]->ToggleMouseControl();
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOff();
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOff();
@@ -648,8 +668,8 @@ void GameWorld::Render()
       box.Render();
 
       gdi->RedPen();
-      CellSpaceFollower()->CalculateNeighbors(m_Vehicles[a]->Pos(), Prm.ViewDistance);
-      for (BaseGameEntity* pV = CellSpaceFollower()->begin();!CellSpaceFollower()->end();pV = CellSpaceFollower()->next())
+      CellSpace()->CalculateNeighbors(m_Vehicles[a]->Pos(), Prm.ViewDistance);
+      for (BaseGameEntity* pV = CellSpace()->begin();!CellSpace()->end();pV = CellSpace()->next())
       {
         gdi->Circle(pV->Pos(), pV->BRadius());
       }

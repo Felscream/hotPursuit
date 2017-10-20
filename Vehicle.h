@@ -108,6 +108,7 @@ public:
 
   double       TimeElapsed()const{return m_dTimeElapsed;}
   void			DetectInput();
+  
  
 };
 

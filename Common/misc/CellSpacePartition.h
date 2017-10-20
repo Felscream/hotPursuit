@@ -118,6 +118,8 @@ public:
 
   //call this to use the gdi to render the cell edges
   inline void RenderCells()const;
+
+  std::vector<entity> getNeighbors() { return m_Neighbors;}
 };
 
 
