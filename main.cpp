@@ -126,10 +126,10 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
 
             break;
 
-		  case VK_UP:
+		  /*case VK_UP:
 		  {
 			  g_GameWorld->ForwardKey();
-		  }
+		  }*/
 
 		  break;
 

@@ -30,7 +30,7 @@ public:
 		this->SetScale(Vector2D(10, 10));
 		//this->Steering()->WanderOn(); 
 		
-		this->SetMaxSpeed(70);
+		this->SetMaxSpeed(100);
 		this->SetEntityType(leader_entity_type);
 
 	}

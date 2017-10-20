@@ -37,7 +37,8 @@ Vehicle::Vehicle(GameWorld* world,
 	m_vSmoothedHeading(Vector2D(0, 0)),
 	m_bSmoothingOn(false),
 	m_dTimeElapsed(0.0),
-	m_bControlOn(false)
+	m_bMouseOn(false),
+	m_bKeyboardOn(false)
 {  
   InitializeBuffer();
 
@@ -85,11 +86,17 @@ void Vehicle::Update(double time_elapsed)
   //if () {
 	  SteeringForce = m_pSteering->Calculate();
   //}
-	  bool shortKey = GetKeyState(VK_UP) & 0x0101;
-	  bool shorts = GetKeyState(VK_UP) & 0x0100;
-   if (!shortKey && this->EntityType()==leader_entity_type) {
-	   Accelerate(m_vVelocity * -time_elapsed);
-   }
+
+	  if (isKeyboardOn())
+	  {
+		  DetectInput();
+	  }
+	  
+	 
+
+
+	  
+	  
    
   //Acceleration = Force/Mass
   Vector2D acceleration = SteeringForce / m_dMass;
@@ -208,5 +215,31 @@ void Vehicle::InitializeBuffer()
 
   
 }
+
+
+void Vehicle::DetectInput() {
+	if (this->EntityType() == leader_entity_type)
+	{
+		if (GetAsyncKeyState(VK_UP) < 0) {
+			Accelerate(this->MaxSpeed()*this->Heading() * this->m_dTimeElapsed);
+		}
+		else
+		{
+			Accelerate(m_vVelocity * -m_dTimeElapsed);
+		}
+
+		if (GetAsyncKeyState(VK_RIGHT) < 0) {
+			double angle = 3 * m_dTimeElapsed;
+			RotateHeading(angle);
+		}
+		
+		if (GetAsyncKeyState(VK_LEFT) < 0) {
+			double angle = -3 * m_dTimeElapsed;
+			RotateHeading(angle);
+		}
+		
+	}
+}
+
 
 

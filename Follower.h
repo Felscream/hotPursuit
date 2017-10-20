@@ -29,6 +29,7 @@ public:
 			scale) {
 
 		this->SetEntityType(follower_entity_type);
+		this->Steering()->SeparationOn();
 	}
 
 

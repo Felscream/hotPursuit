@@ -95,6 +95,12 @@ public:
 	  m_vVelocity += force;
   };
 
+  void RotateHeading(double angle) {
+	  C2DMatrix RotationMatrix;
+	  RotationMatrix.Rotate(angle);
+	  RotationMatrix.TransformVector2Ds(m_vHeading);
+	  RotationMatrix.TransformVector2Ds(m_vVelocity);
+  };
 };
 
 

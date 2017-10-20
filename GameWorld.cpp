@@ -557,8 +557,11 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 
 	  case ID_CONTROL_LEADER:
 	  {
-		  m_Vehicles[m_Vehicles.size() - 1]->ToggleControl();
-		  if (m_Vehicles[m_Vehicles.size() - 1]->isControlOn()) {
+		  m_Vehicles[m_Vehicles.size() - 1]->ToggleMouseControl();
+		  if (m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn()) {
+			  m_Vehicles[m_Vehicles.size() - 1]->ToggleKeyboardControl();
+		  }
+		  if (m_Vehicles[m_Vehicles.size() - 1]->isMouseOn()) {
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOn();
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOff();
 		 }
@@ -567,8 +570,26 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOn();
 		  }
 
-		  CheckMenuItemAppropriately(hwnd, ID_CONTROL_LEADER, m_Vehicles[m_Vehicles.size() - 1]->isControlOn());
+		  CheckMenuItemAppropriately(hwnd, ID_CONTROL_LEADER, m_Vehicles[m_Vehicles.size() - 1]->isMouseOn());
 			break;
+	  }
+
+	  case ID_CONTROL_LEADER_KEYBOARD:
+	  {
+		  m_Vehicles[m_Vehicles.size() - 1]->ToggleKeyboardControl();
+		  if (m_Vehicles[m_Vehicles.size() - 1]->isMouseOn()) {
+			  m_Vehicles[m_Vehicles.size() - 1]->ToggleMouseControl();
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->ArriveOff();
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOff();
+		  }
+		  
+		  if (!m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn()) {
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOn();
+		  }
+		  
+
+		  CheckMenuItemAppropriately(hwnd, ID_CONTROL_LEADER_KEYBOARD, m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn());
+		  break;
 	  }
 
 	  

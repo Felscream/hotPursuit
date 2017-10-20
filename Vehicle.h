@@ -47,7 +47,8 @@ private:
   //when true, smoothing is active
   bool                  m_bSmoothingOn;
 
-  bool m_bControlOn;
+  bool m_bMouseOn;
+  bool m_bKeyboardOn;
   
 
   //keeps a track of the most recent update time. (some of the
@@ -98,9 +99,15 @@ public:
   void        SmoothingOn(){m_bSmoothingOn = true;}
   void        SmoothingOff(){m_bSmoothingOn = false;}
   void        ToggleSmoothing(){m_bSmoothingOn = !m_bSmoothingOn;}
-  void        ToggleControl() { m_bControlOn = !m_bControlOn; }
-  bool		isControlOn()const { return m_bControlOn; }
+  void        ToggleMouseControl() { m_bMouseOn = !m_bMouseOn; }
+  bool		isMouseOn()const { return m_bMouseOn; }
+
+  void        ToggleKeyboardControl() { m_bKeyboardOn = !m_bKeyboardOn; }
+  bool		isKeyboardOn()const { return m_bKeyboardOn; }
+
+
   double       TimeElapsed()const{return m_dTimeElapsed;}
+  void			DetectInput();
  
 };
 
