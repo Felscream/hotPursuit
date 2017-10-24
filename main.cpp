@@ -110,7 +110,7 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
       {
         switch(wParam)
         {
-           case VK_ESCAPE:
+			case VK_ESCAPE:
             {             
               SendMessage(hwnd, WM_DESTROY, NULL, NULL);
             }
@@ -125,7 +125,7 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
             }
 
             break;
-
+		
 		  /*case VK_UP:
 		  {
 			  g_GameWorld->ForwardKey();

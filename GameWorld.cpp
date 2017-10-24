@@ -181,6 +181,7 @@ void GameWorld::Update(double time_elapsed)
   
 void GameWorld::CheckLeader() {
 	std::vector<Vehicle*> neighbors;
+	Vector2D offset = Vector2D(-10, 0);
 	for (unsigned int a = m_Vehicles.size()-1; a>m_Vehicles.size()- Prm.NumLeaders-1; a--)
 	{
 		CellSpace()->CalculateNeighbors(m_Vehicles[a]->Pos(), Prm.ViewDistance);
@@ -191,9 +192,32 @@ void GameWorld::CheckLeader() {
 			if (n!=NULL && n->EntityType()!= n->leader_entity_type)
 			{
 				n->Steering()->WanderOff();
-				n->Steering()->OffsetPursuitOn(m_Vehicles[a], Vector2D(-10, 0));
+				
+				if (!dynamic_cast<Follower*>(n)->GetisFollowing())
+				{
+					dynamic_cast<Follower*>(n)->ToggleFolowwing();
+					dynamic_cast<Follower*>(n)->SetLeader(dynamic_cast<Leader*>(m_Vehicles[a]));
+					dynamic_cast<Leader*>(m_Vehicles[a])->AddFollower(dynamic_cast<Follower*>(n));
+					n->Steering()->OffsetPursuitOn(m_Vehicles[a], dynamic_cast<Leader*>(m_Vehicles[a])->GetPosition());
+				}
+				/*else
+				{
+					if (dynamic_cast<Follower*>(n)->GetLeader() == m_Vehicles[a])
+					{
+						double distance = (m_Vehicles[a]->Pos() - n->Pos()).Length();
+						if (distance>4*offset.Length())
+						{
+							n->Steering()->WanderOn();
+							n->Steering()->OffsetPursuitOff();
+							dynamic_cast<Follower*>(n)->ToggleFolowwing();
+							dynamic_cast<Follower*>(n)->SetLeader(NULL);
+						}
+					}
+				}*/
 			}
 		}
+
+		
 	}
 }
 
@@ -605,6 +629,10 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		  
 		  if (!m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn()) {
 			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOn();
+		  }
+
+		  if (m_Vehicles[m_Vehicles.size() - 1]->isKeyboardOn()) {
+			  m_Vehicles[m_Vehicles.size() - 1]->Steering()->WanderOff();
 		  }
 		  
 

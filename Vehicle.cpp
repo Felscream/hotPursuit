@@ -91,7 +91,7 @@ void Vehicle::Update(double time_elapsed)
 	  {
 		  DetectInput();
 	  }
-	  
+	  DetectInputOffset();
 	 
 
 
@@ -242,6 +242,41 @@ void Vehicle::DetectInput() {
 }
 
 
-
+void Vehicle::DetectInputOffset() {
+	if (this->EntityType() == leader_entity_type)
+	{
+		if (dynamic_cast<Leader*>(this)->down)
+		{
+			if (GetKeyState(VK_NUMPAD2) > 0) {
+				dynamic_cast<Leader*>(this)->ChangeX(false);
+				dynamic_cast<Leader*>(this)->down = false;
+			}
+			if (GetKeyState(VK_NUMPAD8) > 0) {
+				dynamic_cast<Leader*>(this)->ChangeX(true);
+				dynamic_cast<Leader*>(this)->down = false;
+			}
+			if (GetKeyState(VK_NUMPAD4) > 0) {
+				dynamic_cast<Leader*>(this)->ChangeY(false);
+				dynamic_cast<Leader*>(this)->down = false;
+			}
+			if (GetKeyState(VK_NUMPAD6) > 0) {
+				dynamic_cast<Leader*>(this)->ChangeY(true);
+				dynamic_cast<Leader*>(this)->down = false;
+			}
+		}
+		if (GetKeyState(VK_NUMPAD2) < 0) {
+			dynamic_cast<Leader*>(this)->down = true;
+		}
+		if (GetKeyState(VK_NUMPAD8) < 0) {
+			dynamic_cast<Leader*>(this)->down = true;
+		}
+		if (GetKeyState(VK_NUMPAD4) < 0) {
+			dynamic_cast<Leader*>(this)->down = true;
+		}
+		if (GetKeyState(VK_NUMPAD6) < 0) {
+			dynamic_cast<Leader*>(this)->down = true;
+		}
+	}
+}
 
 

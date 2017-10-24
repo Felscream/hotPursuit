@@ -5,8 +5,12 @@
 
 #include "Vehicle.h"
 #include "SteeringBehaviors.h"
-
+class Leader;
 class Follower : public Vehicle {
+
+private:
+	bool isFollowing;
+	Leader* leader;
 
 public:
 	Follower::Follower(GameWorld* world,
@@ -28,10 +32,22 @@ public:
 			max_turn_rate,
 			scale) {
 
+		this->isFollowing = false;
 		this->SetEntityType(follower_entity_type);
 		this->Steering()->SeparationOn();
+
+
 	}
 
+	bool GetisFollowing() {
+		return this->isFollowing;
+	}
 
+	void ToggleFolowwing() {
+		this->isFollowing = !this->isFollowing;
+	}
+
+	Leader* GetLeader() { return this->leader; }
+	void SetLeader(Leader* L) { this->leader = L; }
 };
 #endif
